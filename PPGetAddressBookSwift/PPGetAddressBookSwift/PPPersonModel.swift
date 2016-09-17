@@ -8,13 +8,15 @@
 
 import UIKit
 
-class PPPersonModel: NSObject {
-
+public class PPPersonModel: NSObject {
+    
     /// 联系人姓名
-    var name: String = ""
+    public var name: String = ""
+    
     /// 联系人电话数组,一个联系人可能存储多个号码
-    var mobileArray: [String] = []
+    public var mobileArray: [String] = []
+    
     /// 联系人头像
-    var headerImage: UIImage?
+    public var headerImage: UIImage?
     
 }

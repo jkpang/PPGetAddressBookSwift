@@ -10,17 +10,17 @@ import Foundation
 import AddressBook
 
 /// 获取原始顺序的所有联系人的闭包
-typealias AddressBookArrayClosure = (addressBookArray: [PPPersonModel])->()
+public typealias AddressBookArrayClosure = (addressBookArray: [PPPersonModel])->()
 /// 获取按A~Z顺序排列的所有联系人的闭包
-typealias AddressBookDictClosure = (addressBookDict: [String:[PPPersonModel]], nameKeys: [String])->()
+public typealias AddressBookDictClosure = (addressBookDict: [String:[PPPersonModel]], nameKeys: [String])->()
 
 
 public class PPGetAddressBook: NSObject {
-
+    
     /**
      请求用户是否授权APP访问通讯录的权限,建议在APPDeletegate.m中的didFinishLaunchingWithOptions方法中调用
      */
-    class func requestAddressBookAuthorization() {
+    public class func requestAddressBookAuthorization() {
         // 1.获取授权的状态
         let status = ABAddressBookGetAuthorizationStatus()
         // 2.判断授权状态,如果是未决定状态,才需要请求
@@ -39,7 +39,7 @@ public class PPGetAddressBook: NSObject {
     }
     
     // MARK: - 获取原始顺序所有联系人
-    class func getOriginalAddressBook(addressBookArray success: AddressBookArrayClosure, authorizationFailure failure:AuthorizationFailure) {
+    public class func getOriginalAddressBook(addressBookArray success: AddressBookArrayClosure, authorizationFailure failure:AuthorizationFailure) {
         
         //开启一个子线程,将耗时操作放到异步串行队列
         let queue = dispatch_queue_create("addressBook.array", DISPATCH_QUEUE_SERIAL)
@@ -51,7 +51,7 @@ public class PPGetAddressBook: NSObject {
                 //将单个联系人模型装进数组
                 modelArray.append(model)
                 
-            }, authorizationFailure: {
+                }, authorizationFailure: {
                     
                     //将授权失败的信息回调到主线程
                     dispatch_async(dispatch_get_main_queue(), {
@@ -60,7 +60,7 @@ public class PPGetAddressBook: NSObject {
             })
             
             // 将联系人数组回调到主线程
-            dispatch_async(dispatch_get_main_queue(), { 
+            dispatch_async(dispatch_get_main_queue(), {
                 success(addressBookArray: modelArray)
             })
             
@@ -69,10 +69,10 @@ public class PPGetAddressBook: NSObject {
     }
     
     // MARK: - 获取按A~Z顺序排列的所有联系人
-    class func getOrderAddressBook(addressBookInfo success: AddressBookDictClosure, authorizationFailure failure: AuthorizationFailure) {
+    public class func getOrderAddressBook(addressBookInfo success: AddressBookDictClosure, authorizationFailure failure: AuthorizationFailure) {
         
         let queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL)
-        dispatch_async(queue) { 
+        dispatch_async(queue) {
             
             var addressBookDict = [String:[PPPersonModel]]()
             PPAddressBookHandle.getAddressBookDataSource(personModel: { (model) in
@@ -89,10 +89,10 @@ public class PPGetAddressBook: NSObject {
                     addressBookDict[firstLetterString] = arrGroupNames
                 }
                 
-            }, authorizationFailure: {
+                }, authorizationFailure: {
                     
                     //将授权失败的信息回调到主线程
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    dispatch_async(dispatch_get_main_queue(), {
                         failure()
                     })
             })
@@ -100,13 +100,13 @@ public class PPGetAddressBook: NSObject {
             // 将addressBookDict字典中的所有Key值进行排序: A~Z
             let peopleNameKey = Array(addressBookDict.keys).sort()
             // 将排序好的通讯录数据回调到主线程
-            dispatch_async(dispatch_get_main_queue(), { 
+            dispatch_async(dispatch_get_main_queue(), {
                 success(addressBookDict: addressBookDict, nameKeys: peopleNameKey)
             })
             
         }
     }
-
+    
     // MARK: - 获取联系人姓名首字母(传入汉字字符串, 返回大写拼音首字母)
     private class func getFirstLetterFromString(string: String) -> (String) {
         

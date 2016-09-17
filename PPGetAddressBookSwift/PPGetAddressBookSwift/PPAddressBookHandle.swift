@@ -11,13 +11,13 @@ import AddressBook
 import Contacts
 
 /// 一个联系人信息模型的闭包
-typealias PPPersonModelClosure = (model: PPPersonModel)->()
+public typealias PPPersonModelClosure = (model: PPPersonModel)->()
 /// 授权失败的闭包
-typealias AuthorizationFailure = ()->()
+public typealias AuthorizationFailure = ()->()
 
 
 class PPAddressBookHandle: NSObject {
-
+    
     class func getAddressBookDataSource(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         if #available(iOS 9.0, *) {
@@ -105,7 +105,7 @@ class PPAddressBookHandle: NSObject {
         let fetchKeys = [CNContactFormatter.descriptorForRequiredKeysForStyle(CNContactFormatterStyle.FullName),CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey]
         let fetchRequest = CNContactFetchRequest.init(keysToFetch: fetchKeys);
         
-
+        
         // 3.请求获取联系人
         var contacts = [CNContact]()
         do {
@@ -146,7 +146,7 @@ class PPAddressBookHandle: NSObject {
      过滤指定字符串(可自定义添加自己过滤的字符串)
      */
     class func removeSpecialSubString(string: String) -> String {
-
+        
         let resultString = string.stringByReplacingOccurrencesOfString("+86", withString: "")
             .stringByReplacingOccurrencesOfString("-", withString: "")
             .stringByReplacingOccurrencesOfString("(", withString: "")
