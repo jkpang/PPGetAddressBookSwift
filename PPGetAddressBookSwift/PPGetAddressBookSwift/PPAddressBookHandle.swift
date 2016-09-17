@@ -32,6 +32,7 @@ class PPAddressBookHandle: NSObject {
     
     
     // MARK: - IOS9之前获取通讯录的函数
+    @available(iOS, introduced=8.0, deprecated=9.0)
     private class func getDataSourceFrom_IOS9_Ago(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         // 1.获取授状态
@@ -84,62 +85,60 @@ class PPAddressBookHandle: NSObject {
     }
     
     // MARK: - IOS9之后获取通讯录的函数
+    @available(iOS 9.0, *)
     private class func getDataSourceFrom_IOS9_Later(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
-        if #available(iOS 9.0, *) {
-            // 1.获取授权状态
-            let status = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
-            // 2.如果没有授权,先执行授权失败的闭包后return
-            if status != CNAuthorizationStatus.Authorized {
-                failure()
-                return
-            }
-            
-            // 3.获取联系人
-            // 3.1.创建联系人仓库
-            let store = CNContactStore.init();
-            
-            // 3.2.创建联系人的请求对象
-            // keys决定能获取联系人哪些信息,例:姓名,电话,头像等
-            let fetchKeys = [CNContactFormatter.descriptorForRequiredKeysForStyle(CNContactFormatterStyle.FullName),CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey]
-            let fetchRequest = CNContactFetchRequest.init(keysToFetch: fetchKeys);
-            
-
-            // 3.请求获取联系人
-            var contacts = [CNContact]()
-            do {
-                try store.enumerateContactsWithFetchRequest(fetchRequest, usingBlock: { (let contact, let stop) -> Void in
-                    contacts.append(contact)
-                })
-            }
-            catch let error as NSError {
-                print(error.localizedDescription)
-            }
-            // 3.1遍历联系人
-            for contact in contacts {
-                
-                // 创建联系人模型
-                let model = PPPersonModel()
-                
-                // 获取联系人全名
-                model.name = CNContactFormatter.stringFromContact(contact, style: CNContactFormatterStyle.FullName) ?? ""
-                
-                // 获取头像
-                let imageData = contact.thumbnailImageData ?? NSData.init()
-                model.headerImage = UIImage.init(data: imageData)
-                
-                // 遍历一个人的所有电话号码
-                for labelValue in contact.phoneNumbers {
-                    let phoneNumber = labelValue.value as! CNPhoneNumber
-                    model.mobileArray.append(phoneNumber.stringValue)
-                }
-                
-                // 将联系人模型回调出去
-                success(model: model)
-            }
-            
+        // 1.获取授权状态
+        let status = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+        // 2.如果没有授权,先执行授权失败的闭包后return
+        if status != CNAuthorizationStatus.Authorized {
+            failure()
+            return
         }
-       
+        
+        // 3.获取联系人
+        // 3.1.创建联系人仓库
+        let store = CNContactStore.init();
+        
+        // 3.2.创建联系人的请求对象
+        // keys决定能获取联系人哪些信息,例:姓名,电话,头像等
+        let fetchKeys = [CNContactFormatter.descriptorForRequiredKeysForStyle(CNContactFormatterStyle.FullName),CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey]
+        let fetchRequest = CNContactFetchRequest.init(keysToFetch: fetchKeys);
+        
+
+        // 3.请求获取联系人
+        var contacts = [CNContact]()
+        do {
+            try store.enumerateContactsWithFetchRequest(fetchRequest, usingBlock: { (let contact, let stop) -> Void in
+                contacts.append(contact)
+            })
+        }
+        catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        // 3.1遍历联系人
+        for contact in contacts {
+            
+            // 创建联系人模型
+            let model = PPPersonModel()
+            
+            // 获取联系人全名
+            model.name = CNContactFormatter.stringFromContact(contact, style: CNContactFormatterStyle.FullName) ?? ""
+            
+            // 获取头像
+            let imageData = contact.thumbnailImageData ?? NSData.init()
+            model.headerImage = UIImage.init(data: imageData)
+            
+            // 遍历一个人的所有电话号码
+            for labelValue in contact.phoneNumbers {
+                let phoneNumber = labelValue.value as! CNPhoneNumber
+                model.mobileArray.append(phoneNumber.stringValue)
+            }
+            
+            // 将联系人模型回调出去
+            success(model: model)
+        }
+        
     }
     
     

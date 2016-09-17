@@ -15,6 +15,15 @@ PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言
 ##Installation 安装
 ###1.手动安装:
 `下载DEMO后,将子文件夹PPGetAddressBookSwift拖入到项目中,无须import,直接使用`
+###2.CocoaPods安装:
+first
+`pod 'PPGetAddressBookSwift'`
+then
+`pod install或pod install --no-repo-update`
+
+在你需要使用的地方 import PPGetAddressBook
+
+如果发现pod search PPGetAddressBookSwift 不是最新版本，在终端执行pod setup命令更新本地spec镜像缓存(时间可能有点长),重新搜索就OK了
 ##Usage 使用方法
 
 ###一、首先必须要请求用户是否授权APP访问通讯录的权限(建议在APPDeletegate.m中的didFinishLaunchingWithOptions方法中调用)
@@ -60,6 +69,8 @@ self.tableView.reloadData()
 如果你有更好的实现方法,希望不吝赐教!
 ####你的star是我持续更新的动力!
 ===
+##CocoaPods更新日志
+* 2016.09.17(tag:0.1.0)--Pods初始化
 
 ##联系方式:
 * Weibo : @CoderPang
