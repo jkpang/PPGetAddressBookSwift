@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/jkpang/PPGetAddressBookSwift.git", :tag => s.version.to_s }
 
-  s.source_files  = "PPGetAddressBook/PPGetAddressBook/*.{h,m}"
+  s.source_files  = "PPGetAddressBookSwift/PPGetAddressBookSwift/*.{swift}"
 
   s.requires_arc = true
 
