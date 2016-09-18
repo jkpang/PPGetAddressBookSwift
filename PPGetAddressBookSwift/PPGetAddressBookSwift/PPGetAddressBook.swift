@@ -17,7 +17,7 @@
  * GitHub: https://github.com/jkpang
  *
  * PS:PPGetAddressBookSwift的Objective-C版本:
- * https://github.com/jkpang/PPGetAddressBookSwift
+ * https://github.com/jkpang/PPGetAddressBook
  *
  *********************************************************************************
  */
