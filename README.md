@@ -17,7 +17,7 @@ PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言
 `下载DEMO后,将子文件夹PPGetAddressBookSwift拖入到项目中,无须import,直接使用`
 ###2.CocoaPods安装:
 first
-`pod 'PPGetAddressBookSwift'`
+`pod 'PPGetAddressBookSwift',:git => 'https://github.com/jkpang/PPGetAddressBookSwift.git'`
 then
 `pod install或pod install --no-repo-update`
 
@@ -70,6 +70,7 @@ self.tableView.reloadData()
 ####你的star是我持续更新的动力!
 ===
 ##CocoaPods更新日志
+* 2016.09.18(tag:0.1.1)--修复可能造成崩溃的Bug
 * 2016.09.17(tag:0.1.0)--Pods初始化
 
 ##联系方式:

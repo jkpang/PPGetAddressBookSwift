@@ -27,7 +27,7 @@ class PPAddressBookHandle: NSObject {
             // iOS9 之前
             getDataSourceFrom_IOS9_Ago(personModel: success, authorizationFailure: failure)
         }
-        
+    
     }
     
     
@@ -60,7 +60,7 @@ class PPAddressBookHandle: NSObject {
             let person = personInfo as ABRecordRef
             
             // 5.2 获取联系人全名
-            let name = ABRecordCopyCompositeName(person)?.takeRetainedValue() as String? ?? ""
+            let name = ABRecordCopyCompositeName(person)?.takeRetainedValue() as String? ?? "无名氏"
             model.name = name
             
             // 5.3 获取头像数据
@@ -123,7 +123,7 @@ class PPAddressBookHandle: NSObject {
             let model = PPPersonModel()
             
             // 获取联系人全名
-            model.name = CNContactFormatter.stringFromContact(contact, style: CNContactFormatterStyle.FullName) ?? ""
+            model.name = CNContactFormatter.stringFromContact(contact, style: CNContactFormatterStyle.FullName) ?? "无名氏"
             
             // 获取头像
             let imageData = contact.thumbnailImageData ?? NSData.init()
