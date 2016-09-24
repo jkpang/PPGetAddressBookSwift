@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'PPGetAddressBookSwift'
-  s.version      = "0.1.1"
+  s.version      = "0.1.5"
   s.summary      = "一行代码获取按A~Z分组精准排序的通讯录联系人 Swift版( 已处理姓名所有字符的排序问题)"
 
   s.homepage     = "https://github.com/jkpang/PPGetAddressBookSwift.git"
