@@ -29,7 +29,7 @@ import AddressBook
 import Contacts
 
 /// 一个联系人信息模型的闭包
-public typealias PPPersonModelClosure = (model: PPPersonModel)->()
+public typealias PPPersonModelClosure = (_ model: PPPersonModel)->()
 /// 授权失败的闭包
 public typealias AuthorizationFailure = ()->()
 
@@ -50,14 +50,14 @@ class PPAddressBookHandle: NSObject {
     
     
     // MARK: - IOS9之前获取通讯录的函数
-    @available(iOS, introduced=8.0, deprecated=9.0)
+    @available(iOS, introduced: 8.0, deprecated: 9.0)
     private class func getDataSourceFrom_IOS9_Ago(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         // 1.获取授状态
         let status = ABAddressBookGetAuthorizationStatus()
         
         // 2.如果没有授权,先执行授权失败的闭包后return
-        if status != ABAuthorizationStatus.Authorized {
+        if status != ABAuthorizationStatus.authorized {
             failure()
             return
         }
@@ -75,7 +75,7 @@ class PPAddressBookHandle: NSObject {
             let model = PPPersonModel()
             
             // 5.1 获取到联系人
-            let person = personInfo as ABRecordRef
+            let person = personInfo as ABRecord
             
             // 5.2 获取联系人全名
             let name = ABRecordCopyCompositeName(person)?.takeRetainedValue() as String? ?? "无名氏"
@@ -83,7 +83,7 @@ class PPAddressBookHandle: NSObject {
             
             // 5.3 获取头像数据
             let imageData = ABPersonCopyImageDataWithFormat(person, kABPersonImageFormatThumbnail)?.takeRetainedValue() as NSData? ?? NSData.init()
-            model.headerImage = UIImage.init(data: imageData)
+            model.headerImage = UIImage.init(data: imageData as Data)
             
             // 5.4 遍历每个人的电话号码
             let phones = ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue();
@@ -91,12 +91,12 @@ class PPAddressBookHandle: NSObject {
             for i in 0..<phoneCount {
                 // 获取号码
                 let phoneValue = ABMultiValueCopyValueAtIndex(phones, i)?.takeRetainedValue() as! String? ?? ""
-                let mobile = removeSpecialSubString(phoneValue)
+                let mobile = removeSpecialSubString(string: phoneValue)
                 model.mobileArray.append(mobile)
                 
             }
             
-            success(model: model)
+            success(model)
             
         }
         
@@ -107,9 +107,9 @@ class PPAddressBookHandle: NSObject {
     private class func getDataSourceFrom_IOS9_Later(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         // 1.获取授权状态
-        let status = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+        let status = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
         // 2.如果没有授权,先执行授权失败的闭包后return
-        if status != CNAuthorizationStatus.Authorized {
+        if status != CNAuthorizationStatus.authorized {
             failure()
             return
         }
@@ -120,16 +120,17 @@ class PPAddressBookHandle: NSObject {
         
         // 3.2.创建联系人的请求对象
         // keys决定能获取联系人哪些信息,例:姓名,电话,头像等
-        let fetchKeys = [CNContactFormatter.descriptorForRequiredKeysForStyle(CNContactFormatterStyle.FullName),CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey]
-        let fetchRequest = CNContactFetchRequest.init(keysToFetch: fetchKeys);
+        let fetchKeys = [CNContactFormatter.descriptorForRequiredKeys(for: CNContactFormatterStyle.fullName),CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey] as [Any]
+        let fetchRequest = CNContactFetchRequest.init(keysToFetch: fetchKeys as! [CNKeyDescriptor]);
         
         
         // 3.请求获取联系人
         var contacts = [CNContact]()
         do {
-            try store.enumerateContactsWithFetchRequest(fetchRequest, usingBlock: { (let contact, let stop) -> Void in
+            try store.enumerateContacts(with: fetchRequest, usingBlock: { ( contact, stop) -> Void in
                 contacts.append(contact)
             })
+            
         }
         catch let error as NSError {
             print(error.localizedDescription)
@@ -141,20 +142,20 @@ class PPAddressBookHandle: NSObject {
             let model = PPPersonModel()
             
             // 获取联系人全名
-            model.name = CNContactFormatter.stringFromContact(contact, style: CNContactFormatterStyle.FullName) ?? "无名氏"
+            model.name = CNContactFormatter.string(from: contact, style: CNContactFormatterStyle.fullName) ?? "无名氏"
             
             // 获取头像
-            let imageData = contact.thumbnailImageData ?? NSData.init()
+            let imageData = contact.thumbnailImageData ?? NSData.init() as Data
             model.headerImage = UIImage.init(data: imageData)
             
             // 遍历一个人的所有电话号码
             for labelValue in contact.phoneNumbers {
-                let phoneNumber = labelValue.value as! CNPhoneNumber
+                let phoneNumber = labelValue.value 
                 model.mobileArray.append(phoneNumber.stringValue)
             }
             
             // 将联系人模型回调出去
-            success(model: model)
+            success(model)
         }
         
     }
@@ -165,12 +166,12 @@ class PPAddressBookHandle: NSObject {
      */
     class func removeSpecialSubString(string: String) -> String {
         
-        let resultString = string.stringByReplacingOccurrencesOfString("+86", withString: "")
-            .stringByReplacingOccurrencesOfString("-", withString: "")
-            .stringByReplacingOccurrencesOfString("(", withString: "")
-            .stringByReplacingOccurrencesOfString(")", withString: "")
-            .stringByReplacingOccurrencesOfString(" ", withString: "")
-            .stringByReplacingOccurrencesOfString(" ", withString: "")
+        let resultString = string.replacingOccurrences(of: "+86", with: "")
+            .replacingOccurrences(of: "-", with: "")
+            .replacingOccurrences(of: "(", with: "")
+            .replacingOccurrences(of: ")", with: "")
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: " ", with: "")
         
         return resultString;
     }

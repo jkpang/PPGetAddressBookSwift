@@ -19,8 +19,7 @@ class ViewController: UIViewController {
         
         navigationItem.title = "PPGetAddressBook Swift版"
         
-
-        tableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height), style: UITableViewStyle.Grouped)
+        tableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height), style: UITableViewStyle.grouped)
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
@@ -30,26 +29,26 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return dateSource.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         if cell == nil {
             
-            cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         }
         
         cell?.textLabel?.text = dateSource[indexPath.row]
-        cell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        cell?.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         return cell!
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             // A~Z分组排序
             navigationController?.pushViewController(AddressBookVC1(), animated: true)

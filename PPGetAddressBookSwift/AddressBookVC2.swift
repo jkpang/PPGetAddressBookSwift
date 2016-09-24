@@ -37,10 +37,10 @@ class AddressBookVC2: UIViewController {
             
             }, authorizationFailure: {
                 
-                let alertViewVC = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许PPAddressBookSwift访问您的通讯录", preferredStyle: UIAlertControllerStyle.Alert)
-                let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.Cancel, handler:nil)
+                let alertViewVC = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许PPAddressBookSwift访问您的通讯录", preferredStyle: UIAlertControllerStyle.alert)
+                let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.cancel, handler:nil)
                 alertViewVC.addAction(confirm)
-                self.presentViewController(alertViewVC, animated: true, completion: nil)
+                self.present(alertViewVC, animated: true, completion: nil)
         })
         
     }
@@ -52,19 +52,19 @@ class AddressBookVC2: UIViewController {
 
 extension AddressBookVC2: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return dataSourceArray.count
     }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+   
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         if cell == nil {
             
-            cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         }
-    
+        
         let model = dataSourceArray[indexPath.row]
         
         cell?.textLabel?.text = model.name
@@ -72,17 +72,16 @@ extension AddressBookVC2: UITableViewDelegate, UITableViewDataSource {
         cell?.imageView?.layer.cornerRadius = 30
         cell?.imageView?.clipsToBounds = true
         return cell!
-        
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let model = dataSourceArray[indexPath.row]
         
-        let alertViewVC = UIAlertController.init(title: model.name, message:"\(model.mobileArray)", preferredStyle: UIAlertControllerStyle.Alert)
-        let confirm = UIAlertAction.init(title: "确定", style: UIAlertActionStyle.Cancel, handler:nil)
+        let alertViewVC = UIAlertController.init(title: model.name, message:"\(model.mobileArray)", preferredStyle: UIAlertControllerStyle.alert)
+        let confirm = UIAlertAction.init(title: "确定", style: UIAlertActionStyle.cancel, handler:nil)
         alertViewVC.addAction(confirm)
-        self.presentViewController(alertViewVC, animated: true, completion: nil)
+        self.present(alertViewVC, animated: true, completion: nil)
     }
     
 }

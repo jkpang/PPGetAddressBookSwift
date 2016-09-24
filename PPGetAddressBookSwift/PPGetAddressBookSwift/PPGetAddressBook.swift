@@ -27,9 +27,9 @@ import Foundation
 import AddressBook
 
 /// 获取原始顺序的所有联系人的闭包
-public typealias AddressBookArrayClosure = (addressBookArray: [PPPersonModel])->()
+public typealias AddressBookArrayClosure = (_ addressBookArray: [PPPersonModel])->()
 /// 获取按A~Z顺序排列的所有联系人的闭包
-public typealias AddressBookDictClosure = (addressBookDict: [String:[PPPersonModel]], nameKeys: [String])->()
+public typealias AddressBookDictClosure = (_ addressBookDict: [String:[PPPersonModel]], _ nameKeys: [String])->()
 
 
 public class PPGetAddressBook: NSObject {
@@ -41,7 +41,7 @@ public class PPGetAddressBook: NSObject {
         // 1.获取授权的状态
         let status = ABAddressBookGetAuthorizationStatus()
         // 2.判断授权状态,如果是未决定状态,才需要请求
-        if status == ABAuthorizationStatus.NotDetermined {
+        if status == ABAuthorizationStatus.notDetermined {
             // 3.创建通讯录进行授权
             let addressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
             ABAddressBookRequestAccessWithCompletion(addressBook, { (success, error) in
@@ -56,11 +56,12 @@ public class PPGetAddressBook: NSObject {
     }
     
     // MARK: - 获取原始顺序所有联系人
-    public class func getOriginalAddressBook(addressBookArray success: AddressBookArrayClosure, authorizationFailure failure:AuthorizationFailure) {
+    public class func getOriginalAddressBook(addressBookArray success: @escaping AddressBookArrayClosure, authorizationFailure failure:@escaping AuthorizationFailure) {
         
         //开启一个子线程,将耗时操作放到异步串行队列
-        let queue = dispatch_queue_create("addressBook.array", DISPATCH_QUEUE_SERIAL)
-        dispatch_async(queue) {
+        
+        let queue = DispatchQueue(label: "addressBook.array")
+        queue.async {
             
             var modelArray = [PPPersonModel]()
             PPAddressBookHandle.getAddressBookDataSource(personModel: { (model) in
@@ -70,32 +71,32 @@ public class PPGetAddressBook: NSObject {
                 
                 }, authorizationFailure: {
                     
-                    //将授权失败的信息回调到主线程
-                    dispatch_async(dispatch_get_main_queue(), {
-                        failure()
-                    })
+                //将授权失败的信息回调到主线程
+                DispatchQueue.main.async {
+                    failure()
+                }
             })
             
             // 将联系人数组回调到主线程
-            dispatch_async(dispatch_get_main_queue(), {
-                success(addressBookArray: modelArray)
-            })
+            DispatchQueue.main.async {
+                success(modelArray)
+            }
             
         }
         
     }
     
     // MARK: - 获取按A~Z顺序排列的所有联系人
-    public class func getOrderAddressBook(addressBookInfo success: AddressBookDictClosure, authorizationFailure failure: AuthorizationFailure) {
+    public class func getOrderAddressBook(addressBookInfo success: @escaping AddressBookDictClosure, authorizationFailure failure: @escaping AuthorizationFailure) {
         
-        let queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL)
-        dispatch_async(queue) {
+        let queue = DispatchQueue(label:"addressBook.infoDict")
+        queue.async {
             
             var addressBookDict = [String:[PPPersonModel]]()
             PPAddressBookHandle.getAddressBookDataSource(personModel: { (model) in
                 
                 // 获取到姓名的大写首字母
-                let firstLetterString = getFirstLetterFromString(model.name)
+                let firstLetterString = getFirstLetterFromString(string: model.name)
                 
                 if addressBookDict[firstLetterString] != nil {
                     // swift的字典,如果对应的key在字典中没有,则会新增
@@ -108,18 +109,18 @@ public class PPGetAddressBook: NSObject {
                 
                 }, authorizationFailure: {
                     
-                    //将授权失败的信息回调到主线程
-                    dispatch_async(dispatch_get_main_queue(), {
-                        failure()
-                    })
+                //将授权失败的信息回调到主线程
+                DispatchQueue.main.async {
+                    failure()
+                }
             })
             
             // 将addressBookDict字典中的所有Key值进行排序: A~Z
-            let peopleNameKey = Array(addressBookDict.keys).sort()
+            let peopleNameKey = Array(addressBookDict.keys).sorted()
             // 将排序好的通讯录数据回调到主线程
-            dispatch_async(dispatch_get_main_queue(), {
-                success(addressBookDict: addressBookDict, nameKeys: peopleNameKey)
-            })
+            DispatchQueue.main.async {
+                success(addressBookDict, peopleNameKey)
+            }
             
         }
     }
@@ -130,17 +131,17 @@ public class PPGetAddressBook: NSObject {
         // 注意,这里一定要转换成可变字符串
         let mutableString = NSMutableString.init(string: string)
         // 将中文转换成带声调的拼音
-        CFStringTransform(mutableString as CFMutableString ,  nil, kCFStringTransformToLatin, false)
+        CFStringTransform(mutableString as CFMutableString, nil, kCFStringTransformToLatin, false)
         // 去掉声调(用此方法大大提高遍历的速度)
-        let pinyinString = mutableString.stringByFoldingWithOptions(NSStringCompareOptions.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+        let pinyinString = mutableString.folding(options: String.CompareOptions.diacriticInsensitive, locale: NSLocale.current)
         // 将拼音首字母装换成大写
-        let strPinYin = pinyinString.capitalizedString
+        let strPinYin = pinyinString.capitalized
         // 截取大写首字母
-        let firstString = strPinYin.substringToIndex(strPinYin.startIndex.advancedBy(1))
+        let firstString = strPinYin.substring(to: strPinYin.index(strPinYin.startIndex, offsetBy:1))
         // 判断姓名首位是否为大写字母
         let regexA = "^[A-Z]$"
         let predA = NSPredicate.init(format: "SELF MATCHES %@", regexA)
-        return predA.evaluateWithObject(firstString) ? firstString : "#"
+        return predA.evaluate(with: firstString) ? firstString : "#"
     }
     
 }

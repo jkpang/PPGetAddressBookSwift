@@ -10,7 +10,7 @@ PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言
 
 ##Requirements 要求
 * iOS 8+
-* Xcode 7.3.1+
+* Xcode 8+
 
 ##Installation 安装
 ###1.手动安装:
@@ -18,6 +18,7 @@ PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言
 ###2.CocoaPods安装:
 first
 `pod 'PPGetAddressBookSwift',:git => 'https://github.com/jkpang/PPGetAddressBookSwift.git'`
+
 then
 `pod install或pod install --no-repo-update`
 
@@ -40,7 +41,7 @@ then
 PPGetAddressBook.getOrderAddressBook(addressBookInfo: { (addressBookDict, nameKeys) in
             
     self.addressBookSouce = addressBookDict  // 所有联系人信息的字典
-    self.keysArray = nameKeys       // 所有分组的key值
+    self.keysArray = nameKeys       // 所有分组的key值数组
     // 刷新tableView
     self.tableView.reloadData()
             
@@ -70,6 +71,7 @@ self.tableView.reloadData()
 ####你的star是我持续更新的动力!
 ===
 ##CocoaPods更新日志
+* 2016.09.24(tag:0.1.5)--添加对Swift3的支持
 * 2016.09.18(tag:0.1.1)--修复可能造成崩溃的Bug
 * 2016.09.17(tag:0.1.0)--Pods初始化
 

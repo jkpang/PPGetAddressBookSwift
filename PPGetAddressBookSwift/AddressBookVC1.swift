@@ -21,7 +21,7 @@ class AddressBookVC1: UIViewController {
         
         navigationItem.title = "A~Z联系人分组排序"
         
-        tableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height), style: UITableViewStyle.Plain)
+        tableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height), style: UITableViewStyle.plain)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 60.0
@@ -39,9 +39,10 @@ class AddressBookVC1: UIViewController {
             
             }, authorizationFailure: {
                 
-                let alertView = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许PPAddressBookSwift访问您的通讯录", preferredStyle: UIAlertControllerStyle.Alert)
-                let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.Cancel, handler:nil)
+                let alertView = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许PPAddressBookSwift访问您的通讯录", preferredStyle: UIAlertControllerStyle.alert)
+                let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.cancel, handler:nil)
                 alertView.addAction(confirm)
+                self.present(alertView, animated: true, completion: nil)
         })
         
     }
@@ -54,61 +55,55 @@ class AddressBookVC1: UIViewController {
 
 extension AddressBookVC1: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
+    func numberOfSections(in tableView: UITableView) -> Int {
         return keysArray.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let key = keysArray[section]
-        
         let array = addressBookSouce[key]
-        
+
         return (array?.count)!
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return keysArray[section]
     }
     
     // 右侧索引
-    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-        
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return keysArray
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         if cell == nil {
-            
-            cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+
+            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         }
-        
+
         let modelArray = addressBookSouce[keysArray[indexPath.section]]
         let model = modelArray![indexPath.row]
-        
-        
+
+
         cell?.textLabel?.text = model.name
         cell?.imageView?.image = model.headerImage ?? UIImage.init(named: "defult")
         cell?.imageView?.layer.cornerRadius = 30
         cell?.imageView?.clipsToBounds = true
         
         return cell!
-        
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let modelArray = addressBookSouce[keysArray[indexPath.section]]
         let model = modelArray![indexPath.row]
         
-        let alertViewVC = UIAlertController.init(title: model.name, message:"\(model.mobileArray)", preferredStyle: UIAlertControllerStyle.Alert)
-        let confirm = UIAlertAction.init(title: "确定", style: UIAlertActionStyle.Cancel, handler:nil)
+        let alertViewVC = UIAlertController.init(title: model.name, message:"\(model.mobileArray)", preferredStyle: UIAlertControllerStyle.alert)
+        let confirm = UIAlertAction.init(title: "确定", style: UIAlertActionStyle.cancel, handler:nil)
         alertViewVC.addAction(confirm)
-        self.presentViewController(alertViewVC, animated: true, completion: nil)
+        self.present(alertViewVC, animated: true, completion: nil)
         
     }
     
