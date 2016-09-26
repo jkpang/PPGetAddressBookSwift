@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22106B221D995F4700D16803 /* .swift-version in Resources */ = {isa = PBXBuildFile; fileRef = 22106B211D995F4700D16803 /* .swift-version */; };
 		228DE38D1D8C46DA00D7353E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228DE38C1D8C46DA00D7353E /* AppDelegate.swift */; };
 		228DE38F1D8C46DA00D7353E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228DE38E1D8C46DA00D7353E /* ViewController.swift */; };
 		228DE3941D8C46DA00D7353E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 228DE3931D8C46DA00D7353E /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22106B211D995F4700D16803 /* .swift-version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 		228DE3891D8C46DA00D7353E /* PPGetAddressBookSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPGetAddressBookSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		228DE38C1D8C46DA00D7353E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		228DE38E1D8C46DA00D7353E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		228DE3801D8C46DA00D7353E = {
 			isa = PBXGroup;
 			children = (
+				22106B211D995F4700D16803 /* .swift-version */,
 				228DE38B1D8C46DA00D7353E /* PPGetAddressBookSwift */,
 				228DE3A01D8C46DB00D7353E /* PPGetAddressBookSwiftTests */,
 				228DE38A1D8C46DA00D7353E /* Products */,
@@ -201,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				228DE3971D8C46DA00D7353E /* LaunchScreen.storyboard in Resources */,
+				22106B221D995F4700D16803 /* .swift-version in Resources */,
 				228DE3941D8C46DA00D7353E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,7 +364,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkpang.PPGetAddressBookSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos10.0;
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -375,7 +379,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkpang.PPGetAddressBookSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos10.0;
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
