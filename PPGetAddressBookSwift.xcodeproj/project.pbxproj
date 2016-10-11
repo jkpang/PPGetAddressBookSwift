@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22106B211D995F4700D16803 /* .swift-version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ".swift-version"; path = "../../.swift-version"; sourceTree = "<group>"; };
+		22106B211D995F4700D16803 /* .swift-version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ".swift-version"; path = "../.swift-version"; sourceTree = "<group>"; };
 		228DE3891D8C46DA00D7353E /* PPGetAddressBookSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPGetAddressBookSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		228DE38C1D8C46DA00D7353E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		228DE38E1D8C46DA00D7353E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +87,7 @@
 		228DE38B1D8C46DA00D7353E /* PPGetAddressBookSwift */ = {
 			isa = PBXGroup;
 			children = (
+				22106B211D995F4700D16803 /* .swift-version */,
 				228DE3AC1D8C46E200D7353E /* PPGetAddressBookSwift */,
 				228DE38C1D8C46DA00D7353E /* AppDelegate.swift */,
 				228DE38E1D8C46DA00D7353E /* ViewController.swift */,
@@ -111,7 +112,6 @@
 		228DE3AC1D8C46E200D7353E /* PPGetAddressBookSwift */ = {
 			isa = PBXGroup;
 			children = (
-				22106B211D995F4700D16803 /* .swift-version */,
 				228DE3AE1D8C46E200D7353E /* PPGetAddressBook.swift */,
 				228DE3AD1D8C46E200D7353E /* PPAddressBookHandle.swift */,
 				228DE3AF1D8C46E200D7353E /* PPPersonModel.swift */,
