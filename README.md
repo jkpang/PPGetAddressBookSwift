@@ -71,7 +71,7 @@ self.tableView.reloadData()
 ####你的star是我持续更新的动力!
 ===
 ##CocoaPods更新日志
-* 2016.09.24(tag:0.1.2)--适配Swift3
+* 2016.09.24(tag:0.1.5)--适配Swift3
 * 2016.09.18(tag:0.1.1)--修复可能造成崩溃的Bug
 * 2016.09.17(tag:0.1.0)--Pods初始化
 
