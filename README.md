@@ -4,6 +4,8 @@ PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言
 
 ####Objective-C版本,请戳: https://github.com/jkpang/PPGetAddressBook
 
+###新建 PP-iOS学习交流群 : 323408051 有关于PP系列封装的问题和iOS技术可以在此群讨论
+
 [简书地址](http://www.jianshu.com/p/b51a6125bcff) ;
 
 ![image](https://github.com/jkpang/PPGetAddressBook/blob/master/AddressBook.mov.gif)
@@ -78,7 +80,9 @@ self.tableView.reloadData()
 ##联系方式:
 * Weibo : @CoderPang
 * Email : jkpang@outlook.com
-* QQ : 2406552315
+* QQ群 : 323408051
+
+![PP-iOS学习交流群群二维码](https://github.com/jkpang/PPCounter/blob/master/PP-iOS%E5%AD%A6%E4%B9%A0%E4%BA%A4%E6%B5%81%E7%BE%A4%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
 
 ##许可证
 PPGetAddressBookSwift 使用 MIT 许可证，详情见 LICENSE 文件。
