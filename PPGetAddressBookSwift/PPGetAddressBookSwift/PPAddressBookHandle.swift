@@ -36,9 +36,47 @@ public typealias PPPersonModelClosure = (_ model: PPPersonModel)->()
 public typealias AuthorizationFailure = ()->()
 
 
-class PPAddressBookHandle: NSObject {
+class PPAddressBookHandle {
     
-    class func getAddressBookDataSource(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
+    func requestAuthorizationWithSuccessClosure(success: @escaping ()->()) {
+        
+        if #available(iOS 9.0, *) {
+            
+            if CNContactStore.authorizationStatus(for: CNEntityType.contacts) == CNAuthorizationStatus.authorized {
+                return
+            }
+            contactStore.requestAccess(for: .contacts, completionHandler: { (granted, error) in
+                
+                if granted {
+                    success() ; print("授权成功")
+                } else {
+                    print("授权失败")
+                }
+            })
+            
+            
+        } else {
+            
+            // 1.获取授权的状态
+            let status = ABAddressBookGetAuthorizationStatus()
+            // 2.判断授权状态,如果是未决定状态,才需要请求
+            if status == ABAuthorizationStatus.notDetermined {
+                // 3.创建通讯录进行授权
+                ABAddressBookRequestAccessWithCompletion(addressBook, { (granted, error) in
+                    if granted {
+                        success() ; print("授权成功")
+                    }else {
+                        print("授权失败")
+                    }
+                })
+                
+            }
+            
+        }
+        
+    }
+    
+    func getAddressBookDataSource(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         if #available(iOS 9.0, *) {
             // iOS9 之后
@@ -53,7 +91,7 @@ class PPAddressBookHandle: NSObject {
     
     // MARK: - IOS9之前获取通讯录的函数
     @available(iOS, introduced: 8.0, deprecated: 9.0)
-    private class func getDataSourceFrom_IOS9_Ago(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
+    private func getDataSourceFrom_IOS9_Ago(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         // 1.获取授状态
         let status = ABAddressBookGetAuthorizationStatus()
@@ -65,7 +103,7 @@ class PPAddressBookHandle: NSObject {
         }
         
         // 3.创建通信录对象
-        let addressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
+        //let addressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
         
         // 4.按照按姓名属性的排序规则从通信录对象中请求所有的联系人
         let recordRef = ABAddressBookCopyDefaultSource(addressBook).takeRetainedValue()
@@ -106,7 +144,7 @@ class PPAddressBookHandle: NSObject {
     
     // MARK: - IOS9之后获取通讯录的函数
     @available(iOS 9.0, *)
-    private class func getDataSourceFrom_IOS9_Later(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
+    private func getDataSourceFrom_IOS9_Later(personModel success: PPPersonModelClosure, authorizationFailure failure: AuthorizationFailure) {
         
         // 1.获取授权状态
         let status = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
@@ -118,7 +156,7 @@ class PPAddressBookHandle: NSObject {
         
         // 3.获取联系人
         // 3.1.创建联系人仓库
-        let store = CNContactStore.init();
+        //let store = CNContactStore.init();
         
         // 3.2.创建联系人的请求对象
         // keys决定能获取联系人哪些信息,例:姓名,电话,头像等
@@ -129,7 +167,7 @@ class PPAddressBookHandle: NSObject {
         // 3.请求获取联系人
         var contacts = [CNContact]()
         do {
-            try store.enumerateContacts(with: fetchRequest, usingBlock: { ( contact, stop) -> Void in
+            try contactStore.enumerateContacts(with: fetchRequest, usingBlock: { ( contact, stop) -> Void in
                 contacts.append(contact)
             })
             
@@ -166,7 +204,7 @@ class PPAddressBookHandle: NSObject {
     /**
      过滤指定字符串(可自定义添加自己过滤的字符串)
      */
-    class func removeSpecialSubString(string: String) -> String {
+    func removeSpecialSubString(string: String) -> String {
         
         let resultString = string.replacingOccurrences(of: "+86", with: "")
             .replacingOccurrences(of: "-", with: "")
@@ -177,5 +215,19 @@ class PPAddressBookHandle: NSObject {
         
         return resultString;
     }
+    
+    
+    // MARK: - lazy
+    @available(iOS 9.0, *)
+    lazy var contactStore: CNContactStore = {
+        let contactStore = CNContactStore.init()
+        return contactStore
+    }()
+    
+    @available(iOS, introduced: 8.0, deprecated: 9.0)
+    lazy var addressBook: ABAddressBook = {
+        let addressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
+        return addressBook
+    }()
     
 }

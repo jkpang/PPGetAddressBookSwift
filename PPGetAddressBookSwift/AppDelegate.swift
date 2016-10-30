@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
+        PPGetAddressBook.requestAddressBookAuthorization();
+        
         let rootVC = ViewController()
         let naviVC = UINavigationController.init(rootViewController: rootVC)
         
