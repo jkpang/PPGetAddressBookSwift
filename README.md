@@ -1,4 +1,5 @@
 # PPGetAddressBookSwift
+![](https://img.shields.io/badge/platform-iOS-red.svg) ![](https://img.shields.io/badge/language-Swift-orange.svg) ![](https://img.shields.io/badge/pod-v0.2.0-blue.svg) ![](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)  ![](https://img.shields.io/badge/weibo-%40CoderPang-yellow.svg)
 
 PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言的特性,此版本会比OC版性能要好一些).在这里就不多做介绍.
 

@@ -27,7 +27,6 @@ class AddressBookVC2: UIViewController {
         tableView.rowHeight = 60.0
         view.addSubview(tableView)
         
-        
         // MARK: - 获取原始顺序联系人的模型数组
         PPGetAddressBook.getOriginalAddressBook(addressBookArray: { (addressBookArray) in
             
