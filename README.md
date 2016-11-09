@@ -29,7 +29,8 @@ then
 
 如果发现pod search PPGetAddressBookSwift 不是最新版本，在终端执行pod setup命令更新本地spec镜像缓存(时间可能有点长),重新搜索就OK了
 ##Usage 使用方法
-
+****注意, 在iOS 10系统下必须在info.plist文件中配置获取隐私数据权限声明 : [兼容iOS 10：配置获取隐私数据权限声明
+](http://www.jianshu.com/p/616240463a7a)***
 ###一、首先必须要请求用户是否授权APP访问通讯录的权限(建议在APPDeletegate.m中的didFinishLaunchingWithOptions方法中调用)
 
 ```swift
