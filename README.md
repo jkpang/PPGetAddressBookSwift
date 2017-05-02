@@ -1,5 +1,5 @@
 # PPGetAddressBookSwift
-![](https://img.shields.io/badge/platform-iOS-red.svg) ![](https://img.shields.io/badge/language-Swift-orange.svg) ![](https://img.shields.io/badge/pod-v0.2.0-blue.svg) ![](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)  [![](https://img.shields.io/badge/weibo-jkpang--%E5%BA%9E-red.svg)](http://weibo.com/5743737098/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1)
+![](https://img.shields.io/badge/platform-iOS-red.svg) ![](https://img.shields.io/badge/language-Swift-orange.svg) ![](https://img.shields.io/cocoapods/v/PPGetAddressBookSwift.svg?style=flat) ![](https://img.shields.io/cocoapods/dt/PPGetAddressBookSwift.svg) ![](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg) [![](https://img.shields.io/badge/weibo-jkpang--%E5%BA%9E-red.svg)](http://weibo.com/5743737098/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1)
 
 PPGetAddressBookSwift与Objective-C版本功能与特性相同(基于swift语言的特性,此版本会比OC版性能要好一些).在这里就不多做介绍.
 
@@ -81,7 +81,7 @@ self.tableView.reloadData()
 * 2016.09.17(tag:0.1.0)--Pods初始化
 
 ## 联系方式:
-* Weibo : [@jkpang-庞]((http://weibo.com/5743737098/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1))
+* Weibo : [@jkpang-庞](http://weibo.com/5743737098/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1)
 * Email : jkpang@outlook.com
 * QQ群 : 323408051
 
