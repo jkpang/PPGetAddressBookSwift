@@ -107,7 +107,7 @@ public class PPGetAddressBook : NSObject {
                     addressBookDict[firstLetterString]?.append(model)
                     
                 } else {
-                    var arrGroupNames = [model]
+                    var arrGroupNames = [PPPersonModel]()
                     arrGroupNames.append(model)
                     addressBookDict[firstLetterString] = arrGroupNames
                 }
